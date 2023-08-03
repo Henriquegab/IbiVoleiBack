@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function grupo()
+    {
+        return $this->belongsToMany(Grupo::class, 'dias_solicitacoes', 'grupo_id', 'user_id');
+    }
 }
