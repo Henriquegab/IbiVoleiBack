@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+use Illuminate\Contracts\Validation\Validator;
+
 class StoreGrupoRequest extends FormRequest
 {
     /**
@@ -11,7 +15,7 @@ class StoreGrupoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +26,15 @@ class StoreGrupoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nome' => 'required|min:3|unique:grupos,nome'
         ];
+    }
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => $validator->errors()->first(),
+            'data'      => $validator->errors()
+        ],400));
     }
 }

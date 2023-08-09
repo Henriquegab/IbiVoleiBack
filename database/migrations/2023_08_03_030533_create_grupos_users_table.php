@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('grupo_id');
+            $table->boolean('admin')->default(0);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
         Schema::table('grupos_users', function (Blueprint $table) {

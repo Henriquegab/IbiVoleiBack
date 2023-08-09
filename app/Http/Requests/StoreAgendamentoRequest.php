@@ -36,18 +36,24 @@ class StoreAgendamentoRequest extends FormRequest
                 'date',
                 'date_format:Y-m-d H:i:s',
                 function ($attribute, $value, $fail) {
-                    $data = Carbon::createFromFormat('Y-m-d H:i:s', $this->data);
-                    $fim = Carbon::createFromFormat('Y-m-d H:i:s', $value);
+                    if(empty($this->data)){
+                        $fail('O atributo data é obrigatório!');
+                    }
+                    else{
+                        $data = Carbon::createFromFormat('Y-m-d H:i:s', $this->data);
+                        $fim = Carbon::createFromFormat('Y-m-d H:i:s', $value);
 
-                    // Verifica se há conflito com outros agendamentos
-                    if ($this->hasConflictingSchedules($data, $fim)) {
-                        $fail('O horário conflita com outro agendamento existente.');
+                        // Verifica se há conflito com outros agendamentos
+                        if ($this->hasConflictingSchedules($data, $fim)) {
+                            $fail('O horário conflita com outro agendamento existente.');
+                        }
+
+                        // Verifica se a duração é de pelo menos uma hora
+                        if ($data->diffInMinutes($fim) < 60) {
+                            $fail('A duração do agendamento deve ser de pelo menos uma hora.');
+                        }
                     }
 
-                    // Verifica se a duração é de pelo menos uma hora
-                    if ($data->diffInMinutes($fim) < 60) {
-                        $fail('A duração do agendamento deve ser de pelo menos uma hora.');
-                    }
                 },
             ],
         ];

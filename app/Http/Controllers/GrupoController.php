@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Http\Requests\StoreGrupoRequest;
 use App\Http\Requests\UpdateGrupoRequest;
+use App\Models\GrupoUser;
 
 class GrupoController extends Controller
 {
@@ -13,7 +14,13 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        //
+        $grupos = Grupo::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Grupos recuperados',
+            'data' => $grupos
+        ],200);
     }
 
     /**
@@ -29,7 +36,18 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        //
+        $grupo = Grupo::create($request->all());
+        $grupoUser = GrupoUser::create([
+            'user_id' => 1,
+            'grupo_id' => $grupo->id,
+            'admin' => 1,
+            'status' => 1
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Grupos cadastrado',
+            'data' => $grupo
+        ],201);
     }
 
     /**

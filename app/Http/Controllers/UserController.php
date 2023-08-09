@@ -13,6 +13,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
+
+    public function index()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Usuários recuperados!",
+            'data'=> $users
+        ]);
+    }
+
     /**
      * Create a new AuthController instance.
      *
