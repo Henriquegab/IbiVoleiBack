@@ -26,6 +26,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::get('/users', [UserController::class, 'index']);
 Route::apiResource('/grupos', GrupoController::class);
 
+Route::get('/usuario_grupos/{id}', [GrupoController::class, 'usuario_grupos']);
+
 
 
 Route::resource('agendamento',AgendamentoController::class);

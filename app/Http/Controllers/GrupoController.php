@@ -6,6 +6,8 @@ use App\Models\Grupo;
 use App\Http\Requests\StoreGrupoRequest;
 use App\Http\Requests\UpdateGrupoRequest;
 use App\Models\GrupoUser;
+use App\Models\User;
+use Exception;
 
 class GrupoController extends Controller
 {
@@ -21,6 +23,38 @@ class GrupoController extends Controller
             'message' => 'Grupos recuperados',
             'data' => $grupos
         ],200);
+    }
+
+    public function usuario_grupos($id)
+    {
+        try{
+            $grupos = User::find($id);
+
+
+
+            if(is_null($grupos->grupo->first())){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Nenhum grupo encontrado!',
+
+                ],400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Grupos do usuário recuperados!',
+                'data' => $grupos->grupo
+            ],200);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Grupos não recuperados!',
+
+            ],500);
+        }
+
+
     }
 
     /**
@@ -45,7 +79,7 @@ class GrupoController extends Controller
         ]);
         return response()->json([
             'success' => true,
-            'message' => 'Grupos cadastrado',
+            'message' => 'Grupo cadastrado!',
             'data' => $grupo
         ],201);
     }

@@ -63,6 +63,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function grupo()
     {
-        return $this->belongsToMany(Grupo::class, 'dias_solicitacoes', 'grupo_id', 'user_id');
+        return $this->belongsToMany(Grupo::class, 'grupos_users','user_id', 'grupo_id' );
     }
 }
