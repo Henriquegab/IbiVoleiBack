@@ -27,7 +27,7 @@ class StoreGrupoRequest extends FormRequest
     {
         return [
             'nome' => 'required|min:3|unique:grupos,nome',
-            'imagem' => 'image|nullable'
+            'imagem' => 'image|nullable|mimes:jpeg,bmp,png'
         ];
     }
     public function failedValidation(Validator $validator)
