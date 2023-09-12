@@ -7,7 +7,9 @@ use App\Http\Requests\StoreGrupoRequest;
 use App\Http\Requests\UpdateGrupoRequest;
 use App\Models\GrupoUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class GrupoController extends Controller
 {
@@ -30,6 +32,19 @@ class GrupoController extends Controller
         try{
             $grupos = User::find($id);
 
+            foreach($grupos->grupo as $grupo){
+                $data = new Carbon($grupo->created_at);
+                $grupo->criado = $data->format('d/m/Y');
+                $urlBase = url('/');
+                $imagem = $urlBase.Storage::url($grupo->imagem);
+                if(is_null($grupo->imagem)){
+                    $grupo->link = null;
+                }
+                else{
+                    $grupo->link = $imagem;
+                }
+
+            }
 
 
             if(is_null($grupos->grupo->first())){
@@ -70,7 +85,20 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        $grupo = Grupo::create($request->all());
+
+        if(!empty($request->file('imagem'))){
+            $image = $request->file('imagem');
+
+            $filename = Storage::disk('public')->putFile('imagens', $image);
+        }
+
+
+
+
+        $grupo = Grupo::create([
+            'nome' => $request->nome,
+            'imagem' => $filename ?? null,
+        ]);
         $grupoUser = GrupoUser::create([
             'user_id' => 1,
             'grupo_id' => $grupo->id,

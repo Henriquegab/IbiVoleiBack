@@ -26,7 +26,8 @@ class StoreGrupoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required|min:3|unique:grupos,nome'
+            'nome' => 'required|min:3|unique:grupos,nome',
+            'imagem' => 'image|nullable'
         ];
     }
     public function failedValidation(Validator $validator)
