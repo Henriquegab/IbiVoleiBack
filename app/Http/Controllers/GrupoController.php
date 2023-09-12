@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Http\Requests\StoreGrupoRequest;
 use App\Http\Requests\UpdateGrupoRequest;
+use App\Models\Agendamento;
 use App\Models\GrupoUser;
 use App\Models\User;
 use Carbon\Carbon;
@@ -43,6 +44,9 @@ class GrupoController extends Controller
                 else{
                     $grupo->link = $imagem;
                 }
+
+                $grupo->total_jogos = Agendamento::where('grupo_id',$grupo->id)->count();
+                $grupo->membros = GrupoUser::where('grupo_id', $grupo->id)->count();
 
             }
 

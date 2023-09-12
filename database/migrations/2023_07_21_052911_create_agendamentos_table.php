@@ -17,8 +17,10 @@ return new class extends Migration
             $table->dateTime('data');
             $table->dateTime('fim');
             $table->boolean('ativo')->default(0);
+            $table->unsignedBigInteger('grupo_id');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -26,6 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+
+
+
         Schema::dropIfExists('agendamentos');
     }
 };

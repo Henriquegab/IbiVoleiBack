@@ -15,45 +15,11 @@ class AgendamentoSeeder extends Seeder
     {
         Agendamento::create([
             'nome' => 'henrique',
-            'data' => '2023-07-21 18:00:00',
-            'fim' => '2023-07-21 20:00:00',
-            'ativo' => 1
+            'data' => now(),
+            'fim' => now()->addHour(),
+            'ativo' => 1,
+            'grupo_id' => 1
         ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-22 18:00:00',
-            'fim' => '2023-07-22 20:00:00',
-            'ativo' => 1
-        ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-23 18:00:00',
-            'fim' => '2023-07-23 20:00:00',
-            'ativo' => 1
-        ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-24 18:00:00',
-            'fim' => '2023-07-24 20:00:00',
-            'ativo' => 1
-        ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-25 18:00:00',
-            'fim' => '2023-07-25 20:00:00',
-            'ativo' => 1
-        ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-26 18:00:00',
-            'fim' => '2023-07-26 20:00:00',
-            'ativo' => 1
-        ]);
-        Agendamento::create([
-            'nome' => 'henrique',
-            'data' => '2023-07-27 18:00:00',
-            'fim' => '2023-07-27 20:00:00',
-            'ativo' => 1
-        ]);
+
     }
 }
