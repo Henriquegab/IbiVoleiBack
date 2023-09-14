@@ -119,9 +119,52 @@ class GrupoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Grupo $grupo)
+    public function show($id)
     {
-        //
+        try{
+            $grupo = Grupo::find($id);
+
+
+
+
+            $data = new Carbon($grupo->created_at);
+            $grupo->criado = $data->format('d/m/Y');
+            $urlBase = url('/');
+            $imagem = $urlBase.Storage::url($grupo->imagem);
+            if(is_null($grupo->imagem)){
+                $grupo->link = null;
+            }
+            else{
+                $grupo->link = $imagem;
+            }
+
+            $grupo->total_jogos = Agendamento::where('grupo_id',$grupo->id)->count();
+            $grupo->membros = GrupoUser::where('grupo_id', $grupo->id)->count();
+
+
+
+
+            if(is_null($grupo)){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Nenhum grupo encontrado!',
+
+                ],400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Grupo recuperados!',
+                'data' => $grupo
+            ],200);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Grupos não recuperados!',
+
+            ],500);
+        }
     }
 
     /**

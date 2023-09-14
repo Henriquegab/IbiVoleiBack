@@ -24,9 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/users', [UserController::class, 'index']);
-Route::apiResource('/grupos', GrupoController::class);
+Route::apiResource('/grupos', GrupoController::class)->except(['show']);
+Route::apiResource('/grupos', GrupoController::class)->except(['show']);
 
 Route::get('/usuario_grupos/{id}', [GrupoController::class, 'usuario_grupos']);
+Route::get('/grupos/{id}', [GrupoController::class, 'show']);
 
 
 
